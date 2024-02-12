@@ -11,10 +11,9 @@ import {StorageService} from "../_services/storage.service";
   styleUrls: ['home.page.scss'],
 })
 
-
-
 export class HomePage implements OnInit {
   map!: L.Map;
+  content?: string;
 
   constructor(private markerService: MarkerService) { }
 
@@ -85,12 +84,20 @@ export class HomePage implements OnInit {
   // Aggiorna il contenuto del popup quando viene aperto
   updatePopupContent(e: L.LeafletEvent) {
     const eventTarget = e.target as L.Marker;
-    const popupContent = '<ion-button (click)="createActivity()">Default</ion-button>';
+    const markerPosition = eventTarget.getLatLng();
+    const markerLatitude = markerPosition.lat.toFixed(6);
+    const markerLongitude = markerPosition.lng.toFixed(6);
+
+    const popupContent = `
+    <p>Latitude: ${markerLatitude}</p>
+    <p>Longitude: ${markerLongitude}</p>
+    <ion-button id="activityButton">Default</ion-button>
+  `;
 
     const popupOptions = {
       closeButton: true,
       maxWidth: 400,
-      minWidth: 140
+      minWidth: 150
     };
 
     // Rimuove il popup precedente se esiste
@@ -104,10 +111,34 @@ export class HomePage implements OnInit {
 
     // Riapre il popup dopo aver spostato il marker
     eventTarget.openPopup();
+
+    // Aggiungi l'evento click al bottone
+    const button = document.getElementById('activityButton');
+    if (button) {
+      button.addEventListener('click', () => {
+        this.createActivity();
+      });
+    }
   }
 
   //Utilizza il service per crere un attività
   createActivity() {
-    this.markerService.getMarker()
+    this.markerService.getMarker().subscribe({
+      next: data => {
+        this.content = data;
+      },
+      error: err => {
+        if (err.error) {
+          try {
+            const res = JSON.parse(err.error);
+            this.content = res.message;
+          } catch {
+            this.content = `Error with status: ${err.status} - ${err.statusText}`;
+          }
+        } else {
+          this.content = `Error with status: ${err.status}`;
+        }
+      }
+    });
   }
 }

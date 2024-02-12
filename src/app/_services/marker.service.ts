@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const PUBLIC_API = 'http://localhost:8080/api/test/';
+const PUBLIC_API = 'http://localhost:8080/api/activity/';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,7 +15,7 @@ export class MarkerService {
   constructor(private http: HttpClient) {}
 
   getMarker(): Observable<any> {
-    return this.http.get(PUBLIC_API + 'addmarker', { responseType: 'text' });
+    return this.http.get(PUBLIC_API + 'create', { responseType: 'text' });
   }
 
 }
