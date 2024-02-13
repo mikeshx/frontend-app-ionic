@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.BounceMarker';
-import { MarkerService } from '../_services/marker.service';
+import { ActivityService } from '../_services/activity.service';
 import {AuthService} from "../_services/auth.service";
 import {StorageService} from "../_services/storage.service";
+import { ModalController } from '@ionic/angular';
+import { ActivityModalComponent } from '../activity-modal/activity-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +17,7 @@ export class HomePage implements OnInit {
   map!: L.Map;
   content?: string;
 
-  constructor(private markerService: MarkerService) { }
+  constructor(private activityService: ActivityService, private modalController: ModalController) { }
 
   ngOnInit() {
     // Inizializza la mappa e imposta la vista
@@ -116,14 +118,16 @@ export class HomePage implements OnInit {
     const button = document.getElementById('activityButton');
     if (button) {
       button.addEventListener('click', () => {
-        this.createActivity();
+        // Invia la richiesta API pewr la creazione di un attività
+        //this.createActivity();
+        this.openActivityModal()
       });
     }
   }
 
-  //Utilizza il service per crere un attività
+  //Utilizza il service per creare un attività
   createActivity() {
-    this.markerService.getMarker().subscribe({
+    this.activityService.createActivity("testargument").subscribe({
       next: data => {
         this.content = data;
       },
@@ -140,5 +144,13 @@ export class HomePage implements OnInit {
         }
       }
     });
+  }
+
+  // Apre la finestra modale per una activity
+  async openActivityModal() {
+    const modal = await this.modalController.create({
+      component: ActivityModalComponent,
+    });
+    return await modal.present();
   }
 }

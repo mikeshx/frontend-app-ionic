@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const PUBLIC_API = 'http://localhost:8080/api/activity/';
+const ACTIVITY_API = 'http://localhost:8080/api/activity/';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -11,11 +11,17 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root',
 })
-export class MarkerService {
+export class ActivityService {
   constructor(private http: HttpClient) {}
 
-  getMarker(): Observable<any> {
-    return this.http.get(PUBLIC_API + 'create', { responseType: 'text' });
+  createActivity(username: string): Observable<any> {
+    return this.http.post(
+       ACTIVITY_API + 'signin',
+      {
+        username,
+      },
+      httpOptions
+    );
   }
 
 }

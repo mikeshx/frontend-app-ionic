@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import {MarkerPopupComponent} from "../marker-popup/marker-popup.component";
+import {ActivityModalComponent} from "../activity-modal/activity-modal.component";
 
 
 @NgModule({
@@ -15,7 +16,7 @@ import {MarkerPopupComponent} from "../marker-popup/marker-popup.component";
     IonicModule,
     HomePageRoutingModule,
   ],
-  // in declarations vado ad aggiugere i componenti che voglio utilizzare
-  declarations: [HomePage, MarkerPopupComponent]
+  // In declarations vado ad aggiugere i componenti che voglio utilizzare nel modulo home
+  declarations: [HomePage, MarkerPopupComponent, ActivityModalComponent]
 })
 export class HomePageModule {}
