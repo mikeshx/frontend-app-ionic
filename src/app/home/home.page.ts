@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.BounceMarker';
 import { ActivityService } from '../_services/activity.service';
-import {AuthService} from "../_services/auth.service";
-import {StorageService} from "../_services/storage.service";
 import { ModalController } from '@ionic/angular';
 import { ActivityModalComponent } from '../activity-modal/activity-modal.component';
 
@@ -14,20 +12,19 @@ import { ActivityModalComponent } from '../activity-modal/activity-modal.compone
 })
 
 export class HomePage implements OnInit {
+
   map!: L.Map;
   content?: string;
+  markers: { id: number, marker: L.Marker }[] = [];
+  popupButtonId = 'activityButton';
 
   constructor(private activityService: ActivityService, private modalController: ModalController) { }
 
   ngOnInit() {
-    // Inizializza la mappa e imposta la vista
     this.initMap();
-
-    // Avvia il watch della posizione dell'utente
     this.watchPosition();
   }
 
-  // Inizializza la mappa e imposta la vista
   initMap() {
     if (!navigator.geolocation) {
       console.log('Location not supported');
@@ -39,7 +36,7 @@ export class HomePage implements OnInit {
 
       this.map = L.map('mapId').setView([coord.latitude, coord.longitude], 20);
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">MOpenStreetap</a> contributors'
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(this.map);
 
       localStorage.setItem('longitude_marker', coord.longitude.toString());
@@ -47,7 +44,6 @@ export class HomePage implements OnInit {
     });
   }
 
-  // Avvia il watch della posizione dell'utente
   watchPosition() {
     navigator.geolocation.watchPosition((position) => {
       console.log(`lat: ${position.coords.latitude}, lon: ${position.coords.longitude}`);
@@ -60,7 +56,6 @@ export class HomePage implements OnInit {
     });
   }
 
-  // Aggiunge un marker alle coordinate specificate
   addMarker() {
     const markerLatitude = Number(localStorage.getItem('latitude_marker'));
     const markerLongitude = Number(localStorage.getItem('longitude_marker'));
@@ -78,23 +73,27 @@ export class HomePage implements OnInit {
       bounceOnAdd: true
     });
 
-    // Aggiunge l'evento click per aprire il popup
-    marker.on('click', this.updatePopupContent.bind(this));
-    this.map.addLayer(marker);
+    const markerId = this.markers.length; // Assign unique id to marker
+    this.markers.push({ id: markerId, marker });
+
+    marker.on('click', (e: L.LeafletMouseEvent) => {
+      this.updatePopupContent(e, markerId);
+    });
+
+    marker.addTo(this.map);
   }
 
-  // Aggiorna il contenuto del popup quando viene aperto
-  updatePopupContent(e: L.LeafletEvent) {
+  updatePopupContent(e: L.LeafletMouseEvent, markerId: number) {
     const eventTarget = e.target as L.Marker;
     const markerPosition = eventTarget.getLatLng();
     const markerLatitude = markerPosition.lat.toFixed(6);
     const markerLongitude = markerPosition.lng.toFixed(6);
 
     const popupContent = `
-    <p>Latitude: ${markerLatitude}</p>
-    <p>Longitude: ${markerLongitude}</p>
-    <ion-button id="activityButton">Default</ion-button>
-  `;
+      <p>Latitude: ${markerLatitude}</p>
+      <p>Longitude: ${markerLongitude}</p>
+      <ion-button id="${this.popupButtonId}${markerId}">Default</ion-button>
+    `;
 
     const popupOptions = {
       closeButton: true,
@@ -102,30 +101,23 @@ export class HomePage implements OnInit {
       minWidth: 150
     };
 
-    // Rimuove il popup precedente se esiste
     if (eventTarget.getPopup()) {
       eventTarget.unbindPopup();
     }
 
-    // Crea un nuovo popup e aggiungilo al marker
     const popup = L.popup(popupOptions).setContent(popupContent);
     eventTarget.bindPopup(popup);
-
-    // Riapre il popup dopo aver spostato il marker
     eventTarget.openPopup();
 
-    // Aggiungi l'evento click al bottone
-    const button = document.getElementById('activityButton');
+    const button = document.getElementById(`${this.popupButtonId}${markerId}`);
     if (button) {
       button.addEventListener('click', () => {
-        // Invia la richiesta API pewr la creazione di un attività
-        //this.createActivity();
-        this.openActivityModal()
+        console.log("Button clicked");
+        this.openActivityModal();
       });
     }
   }
 
-  //Utilizza il service per creare un attività
   createActivity() {
     this.activityService.createActivity("testargument").subscribe({
       next: data => {
@@ -146,7 +138,6 @@ export class HomePage implements OnInit {
     });
   }
 
-  // Apre la finestra modale per una activity
   async openActivityModal() {
     const modal = await this.modalController.create({
       component: ActivityModalComponent,
