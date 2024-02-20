@@ -25,5 +25,8 @@ ionic cap sync
 ```
 [Guida di capacitor per altre info](https://ionicframework.com/docs/angular/your-first-app/deploying-mobile).
 
+TODO:
+- Quando vado a inserire una attività, posso inserirla solo se si svolgerà da qui a breve (es tra una settimana? qualche giorno?) non posso inserirla se avverrà tra un mese, ad esempio
+
 
 
