@@ -33,7 +33,11 @@ export class ActivityModalComponent implements OnInit {
   onSubmit() {
     const { name, description } = this.form;
 
-    this.activityService.createActivity(name, description).subscribe({
+    // new Date().toISOString() restituirà una stringa nel formato ISO 8601
+    //TODO: convertire quello che prendo dal calendario nello stesso formato
+    let emptyDate: string = new Date().toISOString();
+
+    this.activityService.createActivity(name, description, emptyDate, emptyDate).subscribe({
       next: data => {
           console.log(data)
       },
