@@ -118,26 +118,6 @@ export class HomePage implements OnInit {
     }
   }
 
-  createActivity() {
-    this.activityService.createActivity("testargument").subscribe({
-      next: data => {
-        this.content = data;
-      },
-      error: err => {
-        if (err.error) {
-          try {
-            const res = JSON.parse(err.error);
-            this.content = res.message;
-          } catch {
-            this.content = `Error with status: ${err.status} - ${err.statusText}`;
-          }
-        } else {
-          this.content = `Error with status: ${err.status}`;
-        }
-      }
-    });
-  }
-
   async openActivityModal() {
     const modal = await this.modalController.create({
       component: ActivityModalComponent,

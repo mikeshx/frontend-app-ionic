@@ -14,11 +14,13 @@ const httpOptions = {
 export class ActivityService {
   constructor(private http: HttpClient) {}
 
-  createActivity(username: string): Observable<any> {
+  /** Richeista post per la creaizone di una attività */
+  createActivity(nome: string, descrizione: string): Observable<any> {
     return this.http.post(
-       ACTIVITY_API + 'signin',
+       ACTIVITY_API + 'create',
       {
-        username,
+        nome,
+        descrizione
       },
       httpOptions
     );

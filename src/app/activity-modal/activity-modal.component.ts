@@ -9,6 +9,13 @@ import { ActivityService } from '../_services/activity.service';
 })
 export class ActivityModalComponent implements OnInit {
 
+  form: any = {
+    name: null,
+    description: null
+  };
+  errorMessage = '';
+  createActivityFailed = false;
+
   constructor(private modalController: ModalController, private activityService: ActivityService) { }
 
   ngOnInit() {
@@ -22,4 +29,18 @@ export class ActivityModalComponent implements OnInit {
     this.modalController.dismiss();
   }
 
+  // On submit, andiamo a creare l'attività
+  onSubmit() {
+    const { name, description } = this.form;
+
+    this.activityService.createActivity(name, description).subscribe({
+      next: data => {
+          console.log(data)
+      },
+      error: err => {
+        this.errorMessage = err.error.message;
+        this.createActivityFailed = false;
+      }
+    });
+  }
 }
