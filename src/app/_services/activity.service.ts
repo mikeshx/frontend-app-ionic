@@ -16,14 +16,20 @@ export class ActivityService {
 
   /** Richeista post per la creaizone di una attività */
   createActivity(nome: string, descrizione: string,
-                 dataInizio: string, dataFine: string): Observable<any> {
+                 dataInizio: string, dataFine: string,
+                 latitudine: String, longitudine: String,
+                 tipo: number, max_partecipanti: number): Observable<any> {
     return this.http.post(
        ACTIVITY_API + 'create',
       {
         nome,
         descrizione,
         dataInizio,
-        dataFine
+        dataFine,
+        latitudine,
+        longitudine,
+        tipo,
+        max_partecipanti
       },
       httpOptions
     );

@@ -52,14 +52,15 @@
     </div>
 
     <ion-item>
-      <ion-select placeholder="Seleziona">
-        <div slot="label">Tipo attività <ion-text color="danger">(*)</ion-text></div>
+      <ion-select placeholder="Seleziona" [(ngModel)]="form.type" name="type">
+        <div slot="label">Tipo attività <ion-text color="danger">*</ion-text></div>
         <ion-select-option value="1">Arrampicata</ion-select-option>
         <ion-select-option value="2">Serata con alcol e droga (legale)</ion-select-option>
         <ion-select-option value="3">Birdwatching tra amici</ion-select-option>
         <ion-select-option value="4">Spariamo alle lepri selvatiche</ion-select-option>
         <ion-select-option value="5">Si fa i tacchini</ion-select-option>
       </ion-select>
+
     </ion-item><br>
 
     <ion-datetime-button datetime="datetime"></ion-datetime-button>
@@ -76,7 +77,7 @@
     <!-- General Errors TODO: i messaggi di errore usano ancora bootstrap!!! -->
     <div class="form-group">
       <div *ngIf="f.submitted && createActivityFailed" class="alert alert-danger" role="alert">
-        Login failed: {{ errorMessage }}
+        {{ errorMessage }}
       </div>
     </div>
   </form>

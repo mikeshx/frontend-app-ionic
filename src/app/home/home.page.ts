@@ -113,14 +113,18 @@ export class HomePage implements OnInit {
     if (button) {
       button.addEventListener('click', () => {
         console.log("Button clicked");
-        this.openActivityModal();
+        this.openActivityModal(markerLatitude, markerLongitude);
       });
     }
   }
 
-  async openActivityModal() {
+  async openActivityModal(latitude: String, longitude: String) {
     const modal = await this.modalController.create({
       component: ActivityModalComponent,
+      componentProps: {
+        latitude: latitude,
+        longitude: longitude
+      }
     });
     return await modal.present();
   }
