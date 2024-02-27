@@ -1,0 +1,38 @@
+<ion-content fullscreen="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="8" offset-md="2" size-lg="6" offset-lg="3">
+        <h1 class="ion-text-center">🚀 Welcome</h1>
+        <p class="ion-text-center">Sign in to continue!</p>
+        <form *ngIf="!isLoggedIn" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+          <ion-item lines="none">
+            <ion-label position="floating">Username</ion-label>
+            <ion-input name="username" type="text" [(ngModel)]="form.username" required></ion-input>
+          </ion-item>
+          <div class="ion-text-center ion-padding-horizontal">
+
+          </div>
+          <ion-item lines="none">
+            <ion-label position="floating">Password</ion-label>
+            <ion-input name="password" type="password" [(ngModel)]="form.password" required minlength="6"></ion-input>
+          </ion-item>
+          <div class="ion-text-center ion-padding-horizontal">
+
+          </div>
+          <ion-button type="submit" expand="block" class="ion-margin-top">Login</ion-button>
+        </form>
+        <div class="ion-text-center ion-padding-top">
+          <p><a>Forgot Password?</a></p>
+          <p>I'm a new user <a href="/register">Sign Up?</a></p>
+        </div>
+        <div  class="ion-text-center ion-padding-top">
+          <ion-note color="danger">Login failed: {{ errorMessage }}</ion-note>
+        </div>
+        <div *ngIf="isLoggedIn" class="ion-text-center ion-padding-top">
+          <ion-note color="success">Logged in as {{ roles }}</ion-note>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
