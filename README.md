@@ -8,7 +8,8 @@ NodeJS **21.6.2** <br>
 
 # Buildare app per Android
 
-**Elimina tutto il contenuto della cartella /android**
+1) **Elimina tutto il contenuto della cartella /android**
+
 Aggiorna capacitor
 
 ```
