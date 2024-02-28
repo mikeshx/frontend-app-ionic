@@ -42,7 +42,11 @@ Esegui l'app con android studio:
 npx cap open android
 ```
 
-[Guida di capacitor per altre info](https://ionicframework.com/docs/angular/your-first-app/deploying-mobile).
+#Link e guide utili
+
+1) [Guida di capacitor per altre info](https://ionicframework.com/docs/angular/your-first-app/deploying-mobile)
+2) [Template usato per login registrazione](https://github.com/juned-adenwalla/Ionic-Angular-Login-Template)
+3) [Spring boot backend](https://github.com/bezkoder/spring-boot-login-example)
 
 # Impostazioni utili
 
