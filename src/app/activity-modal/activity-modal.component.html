@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Crea una nuova attività</ion-title>
+    <ion-title>Crea attività</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="closeModal()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
@@ -26,7 +26,7 @@
       <!-- Description Textarea -->
       <ion-item>
         <ion-label position="stacked">Description</ion-label>
-        <ion-textarea placeholder="Descrivi bene attività daei" name="description" [(ngModel)]="form.description" required #description="ngModel"></ion-textarea>
+        <ion-textarea [autoGrow]="true" class="description-textarea" placeholder="Descrivi attività" name="description" [(ngModel)]="form.description" required #description="ngModel"></ion-textarea>
       </ion-item>
       <div class="invalid-feedback ion-text-center" *ngIf="description.errors && f.submitted">
         <ion-note *ngIf="description.errors['required']" slot="error" color="danger">Enter a username</ion-note>
@@ -37,7 +37,7 @@
         <ion-label position="stacked">Tipo attività</ion-label>
         <ion-select placeholder="Seleziona" [(ngModel)]="form.type" name="type">
           <ion-select-option value="1">Arrampicata</ion-select-option>
-          <ion-select-option value="2">Serata con alcol e droga (legale)</ion-select-option>
+          <ion-select-option value="2">Serata con alcol e droghe</ion-select-option>
           <ion-select-option value="3">Birdwatching tra amici</ion-select-option>
           <ion-select-option value="4">Spariamo alle lepri selvatiche</ion-select-option>
           <ion-select-option value="5">Si fa i tacchini</ion-select-option>
@@ -47,7 +47,7 @@
       <!-- Inizio evento -->
       <ion-item>
         <ion-label position="stacked">Inizio evento:</ion-label>
-        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+        <ion-datetime-button class="ion-margin-top ion-margin-bottom" datetime="datetime"></ion-datetime-button>
         <ion-modal [keepContentsMounted]="true">
           <ng-template>
             <ion-datetime id="datetime"></ion-datetime>
@@ -58,7 +58,7 @@
       <!-- Fine evento -->
       <ion-item>
         <ion-label position="stacked">Fine evento:</ion-label>
-        <ion-datetime-button datetime="datetime2"></ion-datetime-button>
+        <ion-datetime-button class="ion-margin-top ion-margin-bottom" datetime="datetime2"></ion-datetime-button>
         <ion-modal [keepContentsMounted]="true">
           <ng-template>
             <ion-datetime id="datetime2"></ion-datetime>
@@ -66,10 +66,14 @@
         </ion-modal>
       </ion-item>
 
+      <ion-item>
+        <ion-input label="Max partecipanti" type="number" placeholder="Seleziona"></ion-input>
+      </ion-item>
+
     </ion-list>
 
     <!-- Submit Button -->
-    <ion-button type="submit" expand="block">Submit</ion-button>
+    <ion-button type="submit" class ="ion-margin-top" expand="block">Submit</ion-button>
 
     <!-- General Errors -->
     <div *ngIf="f.submitted && createActivityFailed" class="alert alert-danger" role="alert">
