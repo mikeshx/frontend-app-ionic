@@ -1,9 +1,9 @@
 # Acty
 Map using Leaflet made with:
 
-Ionic **7.2.0** <br>
-Angular **17.2** <br>
-NodeJS **21.6.2** <br>
+Ionic: **7.2.0** <br>
+Angular: **17.2** <br>
+NodeJS: **21.6.2** <br>
 
 
 # Buildare app per Android
@@ -57,14 +57,15 @@ Geolocalizzazione:
  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 ```
 
-# Bug e fix da fare
+# Todo-list
 
 **TODO:**
 - Quando vado a inserire una attività, posso inserirla solo se si svolgerà da qui a breve (es tra una settimana? qualche giorno?) non posso inserirla se avverrà tra un mese, ad esempio
+- Quando mi sposto sulla mappa (al dragend), vado ad aggiornare la posizione in cui viene inserito ln marker
 
-**UI: problemi minori**
+**Bugfix minori**
 - Se clicco su un marker, e senza chiuderlo dalla x in alto a destra, riclicco sul marker, la modale non si apre più
-- Le pagine che usano ancora bootstrap (/login e /register) andrebbero ristrutturate per usare SOLO componenti ionic responsive (guarda /mockup)
-  - Il problema è che su alcuni dispositivi molto piccoli, la pagina scorre invece di essere fullscreen
 
+**Decisioni da prendere**
 
+- Uso il footer in tutte le pagine(o lo tolgo da registrazione?)
