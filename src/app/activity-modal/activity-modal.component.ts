@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ActivityService } from '../_services/activity.service';
+import { StorageService } from '../_services/storage.service';
 import * as moment from 'moment';
 
 @Component({
@@ -13,6 +14,8 @@ export class ActivityModalComponent implements OnInit {
   // Parametri passati da home
   @Input() latitude!: String;
   @Input() longitude!: String;
+
+  currentUser: any
 
   form: any = {
     name: null,
@@ -38,7 +41,8 @@ export class ActivityModalComponent implements OnInit {
   errorMessage = '';
   createActivityFailed = false;
 
-  constructor(private modalController: ModalController, private activityService: ActivityService) { }
+  constructor(private modalController: ModalController, private activityService: ActivityService,
+              private storageService: StorageService) { }
 
   ngOnInit() {
 
@@ -47,6 +51,9 @@ export class ActivityModalComponent implements OnInit {
     // il formato che prende in input il backend, è quello specificato tra parentesi (importante!)
     this.#startDateValue = moment().format('YYYY-MM-DDTHH:mm:ss.SSSZ');
     this.#endDateValue = moment().format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+
+    // Prendiamo i dati dell'utente loggato
+    this.currentUser = this.storageService.getUser();
   }
 
   closeModal() {
@@ -58,6 +65,7 @@ export class ActivityModalComponent implements OnInit {
     const { name, description, activityType, maxPartecipanti} = this.form;
 
     this.activityService.createActivity(
+      this.currentUser.id,
       name,
       description,
       this.startDateValue,
