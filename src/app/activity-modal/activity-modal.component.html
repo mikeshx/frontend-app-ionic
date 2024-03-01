@@ -20,7 +20,7 @@
         <ion-input type="text" placeholder="Nome dell'attività" name="name" [(ngModel)]="form.name" required #name="ngModel"></ion-input>
       </ion-item>
       <div class="invalid-feedback ion-text-center" *ngIf="name.errors && f.submitted">
-        <ion-note *ngIf="name.errors['required']" slot="error" color="danger">Enter a username</ion-note>
+        <ion-note *ngIf="name.errors['required']" slot="error" color="danger">Inserisci un nome per l'attività</ion-note>
       </div>
 
       <!-- Description Textarea -->
@@ -29,13 +29,13 @@
         <ion-textarea [autoGrow]="true" class="description-textarea" placeholder="Descrivi attività" name="description" [(ngModel)]="form.description" required #description="ngModel"></ion-textarea>
       </ion-item>
       <div class="invalid-feedback ion-text-center" *ngIf="description.errors && f.submitted">
-        <ion-note *ngIf="description.errors['required']" slot="error" color="danger">Enter a username</ion-note>
+        <ion-note *ngIf="description.errors['required']" slot="error" color="danger">Inserisci una descrizione</ion-note>
       </div>
 
       <!-- Type Select -->
       <ion-item>
         <ion-label position="stacked">Tipo attività</ion-label>
-        <ion-select placeholder="Seleziona" [(ngModel)]="form.type" name="type">
+        <ion-select placeholder="Seleziona" [(ngModel)]="form.activityType" #activityType="ngModel" name="activityType" required>
           <ion-select-option value="1">Arrampicata</ion-select-option>
           <ion-select-option value="2">Serata con alcol e droghe</ion-select-option>
           <ion-select-option value="3">Birdwatching tra amici</ion-select-option>
@@ -43,32 +43,46 @@
           <ion-select-option value="5">Si fa i tacchini</ion-select-option>
         </ion-select>
       </ion-item>
+      <div class="invalid-feedback ion-text-center" *ngIf="activityType.errors && f.submitted">
+        <ion-note *ngIf="activityType.errors['required']" slot="error" color="danger">Seleziona un tipo per la tua attività</ion-note>
+      </div>
 
-      <!-- Inizio evento -->
       <ion-item>
-        <ion-label position="stacked">Inizio evento:</ion-label>
-        <ion-datetime-button class="ion-margin-top ion-margin-bottom" datetime="datetime"></ion-datetime-button>
+      <ion-datetime-button datetime="datetime"></ion-datetime-button>
         <ion-modal [keepContentsMounted]="true">
           <ng-template>
-            <ion-datetime id="datetime"></ion-datetime>
+            <ion-datetime
+              id="datetime"
+              [(ngModel)]="startDateValue" name="startDateValue"
+            >
+            </ion-datetime>
           </ng-template>
         </ion-modal>
       </ion-item>
 
-      <!-- Fine evento -->
+      <!-- Data Fine evento -->
       <ion-item>
-        <ion-label position="stacked">Fine evento:</ion-label>
-        <ion-datetime-button class="ion-margin-top ion-margin-bottom" datetime="datetime2"></ion-datetime-button>
+        <ion-datetime-button datetime="datetime2"></ion-datetime-button>
         <ion-modal [keepContentsMounted]="true">
           <ng-template>
-            <ion-datetime id="datetime2"></ion-datetime>
+            <ion-datetime
+              id="datetime2"
+              [(ngModel)]="endDateValue" name="startDateValue"
+            >
+            </ion-datetime>
           </ng-template>
         </ion-modal>
       </ion-item>
 
+
       <ion-item>
-        <ion-input label="Max partecipanti" type="number" placeholder="Seleziona"></ion-input>
+        <ion-input label="Max partecipanti" type="number" placeholder="Seleziona"
+                   [(ngModel)]="form.maxPartecipanti" #maxPartecipanti="ngModel" name="maxPartecipanti" required></ion-input>
       </ion-item>
+      <div class="invalid-feedback ion-text-center" *ngIf="maxPartecipanti.errors && f.submitted">
+        <ion-note *ngIf="maxPartecipanti.errors['required']" slot="error" color="danger">Inserisci il numero massimo di partecipanti</ion-note>
+      </div>
+
 
     </ion-list>
 

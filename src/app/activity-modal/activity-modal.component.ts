@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ActivityService } from '../_services/activity.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-activity-modal',
@@ -10,26 +11,42 @@ import { ActivityService } from '../_services/activity.service';
 export class ActivityModalComponent implements OnInit {
 
   // Parametri passati da home
-  // Aggiungi un punto esclamativo per indicare a TypeScript che le verrà assegnato un valore
-  // ...prima di essere utilizzate
   @Input() latitude!: String;
   @Input() longitude!: String;
 
   form: any = {
     name: null,
     description: null,
-    type: null
+    activityType: null,
+    maxPartecipanti: null
   };
+
+  #startDateValue: string = '';
+  #endDateValue: string = '';
+  get startDateValue(): string { return this.#startDateValue };
+  set startDateValue(val: string) {
+    this.#startDateValue = val;
+    console.log("startDateValue:" +this.startDateValue);
+  };
+
+  get endDateValue(): string { return this.#endDateValue };
+  set endDateValue(val: string) {
+    this.endDateValue = val;
+    console.log("endDateValue:" +this.endDateValue);
+  };
+
   errorMessage = '';
   createActivityFailed = false;
 
   constructor(private modalController: ModalController, private activityService: ActivityService) { }
 
   ngOnInit() {
-    //this.fetchActivityDetails();
-  }
 
-  fetchActivityDetails() {
+    //Inizializziamo le date tramite la libreria moment nel formato ISO 8601
+    // la data viene presa in base al formato locale
+    // il formato che prende in input il backend, è quello specificato tra parentesi (importante!)
+    this.#startDateValue = moment().format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+    this.#endDateValue = moment().format('YYYY-MM-DDTHH:mm:ss.SSSZ');
   }
 
   closeModal() {
@@ -38,19 +55,20 @@ export class ActivityModalComponent implements OnInit {
 
   // On submit, andiamo a creare l'attività
   onSubmit() {
-    const { name, description, type } = this.form;
+    const { name, description, activityType, maxPartecipanti} = this.form;
 
-    let max_partecipanti: number = 666
-
-    // new Date().toISOString() restituirà una stringa nel formato ISO 8601
-    //TODO: convertire quello che prendo dal calendario nello stesso formato
-    let emptyDate: string = new Date().toISOString();
-
-    this.activityService.createActivity(name, description, emptyDate,
-                                        emptyDate, this.latitude, this.longitude,
-                                        type, max_partecipanti).subscribe({
+    this.activityService.createActivity(
+      name,
+      description,
+      this.startDateValue,
+      this.endDateValue,
+      this.latitude,
+      this.longitude,
+      activityType,
+      maxPartecipanti
+    ).subscribe({
       next: data => {
-          console.log(data)
+        console.log(data)
       },
       error: err => {
         this.errorMessage = err.error.message;
