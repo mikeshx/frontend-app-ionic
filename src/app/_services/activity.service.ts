@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 const ACTIVITY_API = 'http://localhost:8080/api/activity/';
+const ANDROID_EMULATOR_BASE_URL = 'http://10.0.2.2:8080/api/activity/';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
