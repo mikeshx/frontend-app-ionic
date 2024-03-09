@@ -57,6 +57,35 @@ Geolocalizzazione:
  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 ```
 
+# Configurazione tra Android Emulator e backend
+1) **Frontend**: in /app/_services modifica tutte le chiamate API per utilizzare:
+
+```
+const ANDROID_EMULATOR_BASE_URL = 'http://10.0.2.2:8080/api/auth/';
+```   
+2) **Backend**: nel relativo controller (es: activityController), andiamo a settare la politica di CORS nel modo seguente:
+
+```
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8080", "http://localhost:8081", "http://localhost:8100", "http://10.0.2.16", "http://10.0.2.16:8000/", "http://10.0.2.2:8000/", "http://localhost", "http://localhost/*", "http://localhost/register"}, allowCredentials = "true", allowedHeaders = "*")
+```
+
+3) **App nativa / Android studio**: in /app/manifests aggiungere ad <application>:
+
+```
+android:usesCleartextTraffic="true"
+android:networkSecurityConfig="@xml/network_security_config"
+```
+
+3) **App nativa / Android studio**: in /app/res/xml/ crea il file network_security_config.xml:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+  <base-config cleartextTrafficPermitted="true" />
+</network-security-config>
+```
+
+
 # Todo-list
 
 **TODO:**
@@ -65,7 +94,4 @@ Geolocalizzazione:
 
 **Bugfix minori**
 - Se clicco su un marker, e senza chiuderlo dalla x in alto a destra, riclicco sul marker, la modale non si apre più
-
-**Decisioni da prendere**
-
-- Uso il footer in tutte le pagine(o lo tolgo da registrazione?)
+- Distruggi la mappa e ricreala ogni volta che si torna sul tab /home per evitare alcuni problemi di visualizzaizone su android
