@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { MarkerPopupComponent } from './marker-popup.component';
+import { ViewActivityModalComponent } from './view-activity-modal.component';
 
-describe('MarkerPopupComponent', () => {
-  let component: MarkerPopupComponent;
-  let fixture: ComponentFixture<MarkerPopupComponent>;
+describe('ViewActivityModalComponent', () => {
+  let component: ViewActivityModalComponent;
+  let fixture: ComponentFixture<ViewActivityModalComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ MarkerPopupComponent ],
+      declarations: [ ViewActivityModalComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MarkerPopupComponent);
+    fixture = TestBed.createComponent(ViewActivityModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

@@ -7,7 +7,6 @@ import { BoardModeratorComponent } from './board-moderator/board-moderator.compo
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import {MapTestsComponent} from "./map-tests/map-tests.component";
 
 
 const routes: Routes = [
@@ -22,7 +21,7 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
-  { path: 'test', component: MapTestsComponent },
+
 ];
 
 @NgModule({

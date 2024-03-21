@@ -8,7 +8,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardUserComponent } from './board-user/board-user.component';
-import {MapTestsComponent} from "./map-tests/map-tests.component";
 
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
 
@@ -32,8 +31,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
     ProfileComponent,
     BoardAdminComponent,
     BoardModeratorComponent,
-    BoardUserComponent,
-  MapTestsComponent],
+    BoardUserComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, HttpClientModule],
   providers: [
 

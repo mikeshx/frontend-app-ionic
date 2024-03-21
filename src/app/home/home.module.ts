@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
-import {MarkerPopupComponent} from "../marker-popup/marker-popup.component";
 import {ActivityModalComponent} from "../activity-modal/activity-modal.component";
 
 
@@ -17,6 +16,6 @@ import {ActivityModalComponent} from "../activity-modal/activity-modal.component
     HomePageRoutingModule,
   ],
   // In declarations vado ad aggiugere i componenti che voglio utilizzare nel modulo home
-  declarations: [HomePage, MarkerPopupComponent, ActivityModalComponent]
+  declarations: [HomePage, ActivityModalComponent]
 })
 export class HomePageModule {}
