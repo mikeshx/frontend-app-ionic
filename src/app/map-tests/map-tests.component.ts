@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as L from "leaflet";
+import { ActivityService } from '../_services/activity.service';
 
 @Component({
   selector: 'app-map-tests',
@@ -11,7 +12,7 @@ export class MapTestsComponent implements OnInit {
   markers: L.Marker[] = [];
   zoomThreshold = 14; // Imposta il livello di zoom minimo desiderato per visualizzare i marker
 
-  constructor() { }
+  constructor(private activityService: ActivityService) { }
 
   ngOnInit() {
     // Inizializza la mappa e imposta la vista
@@ -55,12 +56,31 @@ export class MapTestsComponent implements OnInit {
 
     // Verifica lo zoom prima di aggiungere i marker
     if (this.map.getZoom() >= this.zoomThreshold) {
+
       // Ottieni i limiti attuali della mappa
       const bounds = this.map.getBounds();
+      const northEast = bounds.getNorthEast();
+      const southWest = bounds.getSouthWest();
+
+      // Passo al backend i bound della mia mappa, e vado a caricare solo i marker presenti all'interno dei bound
+      this.activityService.getActivitesByBounds
+      (
+        northEast.lat,
+        northEast.lng,
+        southWest.lat,
+        southWest.lng
+      ).subscribe({
+        next: data => {
+          console.log(data)
+        },
+        error: err => {
+          console.log("error")
+        }
+      });
+
+
 
       // Simulated data, sostituisci questo con i tuoi dati effettivi dei marker
-
-
       const data = [
         { lat: 41.903906, lng: 12.496739},
         { lat: 41.902640, lng: 12.498955}

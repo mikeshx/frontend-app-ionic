@@ -37,4 +37,18 @@ export class ActivityService {
     );
   }
 
+  /** Richiesta per ottenere la lista delle attività all'interno dei bound della mappa visualizzata dall'utente */
+  getActivitesByBounds(northEastLat: number, northEastLng: number, southWestLat: number, southWestLng: number): Observable<any> {
+    return this.http.post(
+      ACTIVITY_API + 'getActivitiesByBounds',
+      {
+        northEastLat,
+        northEastLng,
+        southWestLat,
+        southWestLng
+      },
+      httpOptions
+    );
+  }
+
 }
