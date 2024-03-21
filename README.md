@@ -90,8 +90,6 @@ android:networkSecurityConfig="@xml/network_security_config"
 
 **TODO:**
 - Quando vado a inserire una attività, posso inserirla solo se si svolgerà da qui a breve (es tra una settimana? qualche giorno?) non posso inserirla se avverrà tra un mese, ad esempio
-- Quando mi sposto sulla mappa (al dragend), vado ad aggiornare la posizione in cui viene inserito ln marker
 
 **Bugfix minori**
-- Se clicco su un marker, e senza chiuderlo dalla x in alto a destra, riclicco sul marker, la modale non si apre più
 - Distruggi la mappa e ricreala ogni volta che si torna sul tab /home per evitare alcuni problemi di visualizzaizone su android
