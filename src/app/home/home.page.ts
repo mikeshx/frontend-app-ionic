@@ -7,6 +7,14 @@ import {ActivityModalComponent} from '../activity-modal/activity-modal.component
 import {Marker} from "leaflet";
 import {ViewActivityModalComponent} from "../view-activity-modal/view-activity-modal.component";
 
+interface CustomMarker {
+  id: number;
+  marker: L.Marker;
+}
+
+// Definisci markers come array di oggetti CustomMarker
+
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -18,11 +26,14 @@ export class HomePage implements OnInit {
   map!: L.Map;
   content?: string;
   markersToAdd: { id: number, marker: L.Marker }[] = [];
-  markers: L.Marker[] = [];
+
   popupButtonId = 'activityButton';
   viewPopupButtonId = 'viewActivityButton';
   zoomThreshold = 13
   currentPosition!: L.LatLng;
+
+  //Array in cui mettiamo i marker scaricati dal DB
+  markers: CustomMarker[] = [];
 
   constructor(private activityService: ActivityService, private modalController: ModalController) {
   }
@@ -101,15 +112,15 @@ export class HomePage implements OnInit {
         next: (data: any[]) => {
           console.log("Dati ricevuti:", data);
 
-          // Creazione di un nuovo set per memorizzare i marker da mantenere
-          const newMarkers = new Set<Marker<any>>();
+          // Creazione di un nuovo array per memorizzare i marker da mantenere
+          const newMarkers: { id: number, marker: L.Marker }[] = [];
 
           // Iterazione sui dati ricevuti per aggiungere i nuovi marker
           data.forEach((activity: any) => {
             // Verifica se il marker è già presente nella mappa
             const existingMarker = this.findExistingMarker(activity);
             if (existingMarker) {
-              newMarkers.add(existingMarker);
+              newMarkers.push(existingMarker);
             } else {
               const marker = L.marker([activity.latitudine, activity.longitudine]).addTo(this.map);
 
@@ -117,19 +128,22 @@ export class HomePage implements OnInit {
                 this.showPopupContent(e, activity);
               });
 
-              newMarkers.add(marker);
+              // Assegna un ID al marker
+              const markerId = activity.id;
+
+              newMarkers.push({ id: markerId, marker: marker });
             }
           });
 
           // Rimozione dei marker non più visibili
-          this.markers.forEach(marker => {
-            if (!newMarkers.has(marker)) {
-              this.map.removeLayer(marker);
+          this.markers.forEach(markerData => {
+            if (!newMarkers.some(newMarkerData => newMarkerData.marker === markerData.marker)) {
+              this.map.removeLayer(markerData.marker);
             }
           });
 
-          // Aggiornamento della lista dei marker
-          this.markers = Array.from(newMarkers);
+          // Aggiornamento dell'array dei marker con gli ID
+          this.markers = newMarkers;
         },
         error: err => {
           console.log("Errore durante il recupero dei dati:", err);
@@ -137,19 +151,19 @@ export class HomePage implements OnInit {
       });
     } else {
       // Rimuovi tutti i marker se lo zoom non è sufficiente
-      this.markers.forEach(marker => {
-        this.map.removeLayer(marker);
+      this.markers.forEach(markerData => {
+        this.map.removeLayer(markerData.marker);
       });
       this.markers = [];
     }
   }
 
-  findExistingMarker(activity: any): Marker<any> | undefined {
-    // Cerca un marker esistente che corrisponda all'attività specificata
-    return this.markers.find(marker =>
-      marker.getLatLng().lat === activity.latitudine && marker.getLatLng().lng === activity.longitudine
-    );
+
+  findExistingMarker(activity: any): CustomMarker | undefined {
+    // Cerca un marker esistente che corrisponda all'ID dell'attività specificata
+    return this.markers.find(markerData => markerData.id === activity.id);
   }
+
 
   //Aggiunge un marker nella mappa
   addMarker() {
@@ -226,7 +240,7 @@ export class HomePage implements OnInit {
     const eventTarget = e.target as L.Marker;
 
     const popupContent = `pippo anche topolino
-      <ion-button id="${this.popupButtonId}">View activity</ion-button>
+      <ion-button id="${this.viewPopupButtonId}${activity.id}">View activity</ion-button>
     `;
 
     const popupOptions = {
@@ -243,8 +257,15 @@ export class HomePage implements OnInit {
     eventTarget.bindPopup(popup);
     eventTarget.openPopup();
 
-    const button = document.getElementById(`${this.popupButtonId}`);
+    const button = document.getElementById(`${this.viewPopupButtonId}${activity.id}`);
     if (button) {
+
+      // Rimuovi il listener dell'evento se già presente
+      button.removeEventListener('click', () => {
+        console.log("Button clicked");
+        this.openViewActivityModal(activity);
+      });
+
       button.addEventListener('click', () => {
         console.log("Button clicked");
         this.openViewActivityModal(activity);
