@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.BounceMarker';
 import {ActivityService} from '../_services/activity.service';
-import {ModalController} from '@ionic/angular';
+import {LoadingController, ModalController} from '@ionic/angular';
 import {ActivityModalComponent} from '../activity-modal/activity-modal.component';
 import {Marker} from "leaflet";
 import {ViewActivityModalComponent} from "../view-activity-modal/view-activity-modal.component";
@@ -34,8 +34,9 @@ export class HomePage implements OnInit {
 
   //Array in cui mettiamo i marker scaricati dal DB
   markers: CustomMarker[] = [];
+  isLoading: boolean = false;
 
-  constructor(private activityService: ActivityService, private modalController: ModalController) {
+  constructor(private activityService: ActivityService, private modalController: ModalController, private loadingController: LoadingController) {
   }
 
   ngOnInit() {
@@ -185,11 +186,14 @@ export class HomePage implements OnInit {
     const markerId = this.markersToAdd.length; // Assign unique id to marker
     this.markersToAdd.push({id: markerId, marker});
 
+
+
     marker.on('click', (e: L.LeafletMouseEvent) => {
       this.updatePopupContent(e, markerId);
     });
 
     marker.addTo(this.map);
+    marker.bindPopup("<b>Spostami</b> e clicca sul marker per creare una attività nel punto desiderato").openPopup(); // Aggiunge il popup con il messaggio personalizzato
   }
 
   // Aggiorna dinamicamente un popup di un marker con le sue coordinate per poi passarle alla modale
@@ -200,9 +204,7 @@ export class HomePage implements OnInit {
     const markerLongitude = markerPosition.lng
 
     const popupContent = `
-      <p>Latitude: ${markerLatitude}</p>
-      <p>Longitude: ${markerLongitude}</p>
-      <ion-button id="${this.popupButtonId}${markerId}">Default</ion-button>
+      <ion-button id="${this.popupButtonId}${markerId}">Create activity</ion-button>
     `;
 
     const popupOptions = {
@@ -239,7 +241,7 @@ export class HomePage implements OnInit {
   showPopupContent(e: L.LeafletMouseEvent, activity: any) {
     const eventTarget = e.target as L.Marker;
 
-    const popupContent = `pippo anche topolino
+    const popupContent = `
       <ion-button id="${this.viewPopupButtonId}${activity.id}">View activity</ion-button>
     `;
 
@@ -275,17 +277,35 @@ export class HomePage implements OnInit {
 
   // Apre una finestra modale per visualizzzare un evento (passando i dettagli di una attività)
   async openViewActivityModal(activity: any) {
+    this.isLoading = true; // attiva il caricamento
+
+    const loading = await this.loadingController.create({
+      message: 'Loading...' // messaggio di caricamento
+    });
+    await loading.present();
+
     const modal = await this.modalController.create({
       component: ViewActivityModalComponent,
       componentProps: {
         activity
       }
     });
-    return await modal.present();
+
+    await modal.present();
+
+    await loading.dismiss(); // chiudi il caricamento quando la finestra modale è aperta
+    this.isLoading = false; // disattiva il caricamento
   }
 
   //Apre la finestra modale per aggiungere dei marker
   async openAddActivityModal(latitude: number, longitude: number) {
+    this.isLoading = true; // attiva il caricamento
+
+    const loading = await this.loadingController.create({
+      message: 'Loading...' // messaggio di caricamento
+    });
+    await loading.present();
+
     const modal = await this.modalController.create({
       component: ActivityModalComponent,
       componentProps: {
@@ -293,6 +313,10 @@ export class HomePage implements OnInit {
         longitude: longitude
       }
     });
-    return await modal.present();
+
+    await modal.present();
+
+    await loading.dismiss(); // chiudi il caricamento quando la finestra modale è aperta
+    this.isLoading = false; // disattiva il caricamento
   }
 }

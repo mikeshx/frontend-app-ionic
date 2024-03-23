@@ -1,3 +1,60 @@
-<p>
-  view-activity-modal works!
-</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Visualizza attività</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <img alt="Silhouette of mountains" src="./assets/activity_image.png" />
+    <ion-card-header>
+      <ion-card-title>{{activity.name}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-card-subtitle>Descrizione attività:</ion-card-subtitle>
+      <ion-text>{{activity.descrizione}} </ion-text>
+      <ion-list>
+        <ion-item class="ion-margin-top">
+          <ion-icon aria-hidden="true" name="people-circle-outline" slot="start"></ion-icon>
+          <ion-label>Partecipanti:</ion-label>
+          <ion-text class="ion-text-end">0/{{activity.max_partecipanti}}</ion-text>
+        </ion-item>
+
+        <ion-item class="ion-margin-top">
+          <ion-icon aria-hidden="true" name="calendar-number-outline" slot="start"></ion-icon>
+          <ion-label>Inizio:</ion-label>
+          <ion-text class="ion-text-end">{{ formatDateAndTime(activity.dataInizio) }}</ion-text>
+        </ion-item>
+
+        <ion-item class="ion-margin-top">
+          <ion-icon aria-hidden="true" name="calendar-number-outline" slot="start"></ion-icon>
+          <ion-label>Fine:</ion-label>
+          <ion-text class="ion-text-end">{{ formatDateAndTime(activity.dataFine) }}</ion-text>
+        </ion-item>
+
+        <ion-item class="ion-margin-top">
+          <ion-icon aria-hidden="true" name="golf-outline" slot="start"></ion-icon>
+          <ion-label>Tipo:</ion-label>
+          <ion-text class="ion-text-end">{{activity.tipo}}</ion-text>
+        </ion-item>
+
+        <ion-item class="ion-margin-top">
+          <ion-icon aria-hidden="true" name="person-outline" slot="start"></ion-icon>
+          <ion-label>Organizzatore:</ion-label>
+          <ion-text class="ion-text-end">{{activity.id_organizzatore}}</ion-text>
+        </ion-item>
+
+
+
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+

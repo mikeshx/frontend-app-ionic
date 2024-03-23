@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import {ActivityModalComponent} from "../activity-modal/activity-modal.component";
+import {ViewActivityModalComponent} from "../view-activity-modal/view-activity-modal.component";
 
 
 @NgModule({
@@ -16,6 +17,6 @@ import {ActivityModalComponent} from "../activity-modal/activity-modal.component
     HomePageRoutingModule,
   ],
   // In declarations vado ad aggiugere i componenti che voglio utilizzare nel modulo home
-  declarations: [HomePage, ActivityModalComponent]
+  declarations: [HomePage, ActivityModalComponent, ViewActivityModalComponent ]
 })
 export class HomePageModule {}
