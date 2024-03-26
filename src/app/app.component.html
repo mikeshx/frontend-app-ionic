@@ -9,9 +9,10 @@
     <!-- Routes for logged users-->
     <ion-content routerLinkActive="true">
       <ion-menu-toggle>
-        <ion-item href="/home" button="true" routerLink="home">
+        <ion-item button="true" href="/home">
           <ion-label>Home</ion-label>
         </ion-item>
+
       </ion-menu-toggle>
 
       <ion-menu-toggle>
@@ -34,19 +35,19 @@
 
       <!-- Routes for guests users -->
       <ion-menu-toggle>
-        <ion-item href="/register" button="true" routerLink="register" *ngIf="!isLoggedIn">
+        <ion-item button="true" routerLink="register" *ngIf="!isLoggedIn">
           <ion-label>Sign up</ion-label>
         </ion-item>
       </ion-menu-toggle>
 
       <ion-menu-toggle>
-        <ion-item href="/login" button="true" routerLink="login" *ngIf="!isLoggedIn">
+        <ion-item button="true" routerLink="login" *ngIf="!isLoggedIn">
           <ion-label>Login</ion-label>
         </ion-item>
       </ion-menu-toggle>
 
       <ion-menu-toggle>
-        <ion-item href="/profile" button="true" routerLink="profile" *ngIf="isLoggedIn">
+        <ion-item button="true" routerLink="profile" *ngIf="isLoggedIn">
           <ion-label>{{ username }}</ion-label>
         </ion-item>
       </ion-menu-toggle>

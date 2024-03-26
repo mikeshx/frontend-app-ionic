@@ -16,21 +16,20 @@ export class ActivityService {
   constructor(private http: HttpClient) {}
 
   /** Richeista post per la creaizone di una attività */
-  createActivity(id_organizzatore: number, nome: string, descrizione: string,
+  createActivity(nome: string, id_organizzatore: number, nome_tipo_evento: string, descrizione: string,
                  dataInizio: string, dataFine: string,
-                 latitudine: String, longitudine: String,
-                 tipo: number, max_partecipanti: number): Observable<any> {
+                 latitudine: String, longitudine: String, max_partecipanti: number): Observable<any> {
     return this.http.post(
        ACTIVITY_API + 'create',
       {
-        id_organizzatore,
         nome,
+        id_organizzatore,
+        nome_tipo_evento,
         descrizione,
         dataInizio,
         dataFine,
         latitudine,
         longitudine,
-        tipo,
         max_partecipanti
       },
       httpOptions
@@ -48,6 +47,21 @@ export class ActivityService {
         southWestLng
       },
       httpOptions
+    );
+  }
+
+  /** Richiesta per ottenere il nome del tipo di una attività in base al suo ID  */
+  getActivityTypeNameByID(typeID: number): Observable<any> {
+    return this.http.get(
+      ACTIVITY_API + 'getActivityTypeNameByID',
+      { params: { typeID: typeID} }
+    );
+  }
+
+  getActivityOrganizerNameByID(organizerID: number): Observable<any> {
+    return this.http.get(
+      ACTIVITY_API + 'getActivityOrganizerNameByID',
+      { params: { organizerID: organizerID} }
     );
   }
 

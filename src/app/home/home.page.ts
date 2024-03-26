@@ -6,6 +6,8 @@ import {LoadingController, ModalController} from '@ionic/angular';
 import {ActivityModalComponent} from '../activity-modal/activity-modal.component';
 import {Marker} from "leaflet";
 import {ViewActivityModalComponent} from "../view-activity-modal/view-activity-modal.component";
+import { StorageService } from '../_services/storage.service';
+import { Router } from '@angular/router';
 
 interface CustomMarker {
   id: number;
@@ -36,49 +38,65 @@ export class HomePage implements OnInit {
   markers: CustomMarker[] = [];
   isLoading: boolean = false;
 
-  constructor(private activityService: ActivityService, private modalController: ModalController, private loadingController: LoadingController) {
+  constructor(private router: Router, private storageService: StorageService, private activityService: ActivityService,
+              private modalController: ModalController, private loadingController: LoadingController) {
   }
 
-  ngOnInit() {
-    this.initMap();
-    this.watchPosition();
-  }
+  async ngOnInit() {
+    if (!this.storageService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+    } else {
+      const loading = await this.loadingController.create({
+        message: 'Loading map...'
+      });
+      await loading.present();
 
-  initMap() {
-    if (!navigator.geolocation) {
-      console.log('Location not supported');
-      return;
+      try {
+        await this.initMap();
+      } catch (error) {
+        console.error('An error occurred while initializing the map:', error);
+      } finally {
+        await loading.dismiss();
+      }
     }
 
-    //TODO: distruggi la mappa ogni volta che viene chiamata questa funzione per evitare problemi
+  }
 
-    navigator.geolocation.getCurrentPosition((position) => {
-      const coord = position.coords;
+  async initMap() {
+    return new Promise<void>((resolve, reject) => {
+      if (!navigator.geolocation) {
+        console.log('Location not supported');
+        reject('Location not supported');
+      }
 
-      this.map = L.map('mapId').setView([coord.latitude, coord.longitude], 20);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(this.map);
+      navigator.geolocation.getCurrentPosition((position) => {
+        const coord = position.coords;
 
-      // Aggiungi event listener per gestire il caricamento dei marker in base alla posizione e allo zoom
-      this.map.on('moveend', () => {
+        this.map = L.map('mapId').setView([coord.latitude, coord.longitude], 20);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(this.map);
+
+        this.map.on('moveend', () => {
+          this.loadMarkers();
+          this.currentPosition = this.map.getBounds().getCenter();
+        });
+
+        this.map.on('zoomend', () => {
+          this.loadMarkers();
+          this.currentPosition = this.map.getBounds().getCenter();
+        });
+
         this.loadMarkers();
 
-        //Teniamo traccia della posizione in cui ci spostiamo lungo la mappa
-        this.currentPosition = this.map.getBounds().getCenter()
+        localStorage.setItem('longitude_marker', coord.longitude.toString());
+        localStorage.setItem('latitude_marker', coord.latitude.toString());
+
+        resolve();
+      }, (error) => {
+        console.error('An error occurred while getting the current position:', error);
+        reject(error);
       });
-
-      this.map.on('zoomend', () => {
-        this.loadMarkers();
-        //Teniamo traccia della posizione in cui ci spostiamo lungo la mappa
-        this.currentPosition = this.map.getBounds().getCenter()
-      });
-
-      // Carica i marker iniziali
-      this.loadMarkers();
-
-      localStorage.setItem('longitude_marker', coord.longitude.toString());
-      localStorage.setItem('latitude_marker', coord.latitude.toString());
     });
   }
 

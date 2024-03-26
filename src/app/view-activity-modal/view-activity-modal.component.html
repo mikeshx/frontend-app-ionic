@@ -13,7 +13,7 @@
   <ion-card>
     <img alt="Silhouette of mountains" src="./assets/activity_image.png" />
     <ion-card-header>
-      <ion-card-title>{{activity.name}}</ion-card-title>
+      <ion-card-title>{{activity.nome}}</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
@@ -29,25 +29,25 @@
         <ion-item class="ion-margin-top">
           <ion-icon aria-hidden="true" name="calendar-number-outline" slot="start"></ion-icon>
           <ion-label>Inizio:</ion-label>
-          <ion-text class="ion-text-end">{{ formatDateAndTime(activity.dataInizio) }}</ion-text>
+          <ion-text class="ion-text-end">{{activityStartDateValueString}}</ion-text>
         </ion-item>
 
         <ion-item class="ion-margin-top">
           <ion-icon aria-hidden="true" name="calendar-number-outline" slot="start"></ion-icon>
           <ion-label>Fine:</ion-label>
-          <ion-text class="ion-text-end">{{ formatDateAndTime(activity.dataFine) }}</ion-text>
+          <ion-text class="ion-text-end">{{activityEndDateValueString}}</ion-text>
         </ion-item>
 
         <ion-item class="ion-margin-top">
           <ion-icon aria-hidden="true" name="golf-outline" slot="start"></ion-icon>
           <ion-label>Tipo:</ion-label>
-          <ion-text class="ion-text-end">{{activity.tipo}}</ion-text>
+          <ion-text class="ion-text-end">{{activity.nome_tipo_evento}}</ion-text>
         </ion-item>
 
         <ion-item class="ion-margin-top">
           <ion-icon aria-hidden="true" name="person-outline" slot="start"></ion-icon>
           <ion-label>Organizzatore:</ion-label>
-          <ion-text class="ion-text-end">{{activity.id_organizzatore}}</ion-text>
+          <ion-text class="ion-text-end">testuser6</ion-text>
         </ion-item>
 
 

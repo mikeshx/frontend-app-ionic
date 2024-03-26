@@ -17,7 +17,7 @@
       <!-- Name Input -->
       <ion-item>
         <ion-label position="stacked">Name</ion-label>
-        <ion-input type="text" placeholder="Nome dell'attività" name="name" [(ngModel)]="form.name" required #name="ngModel"></ion-input>
+        <ion-input type="text" placeholder="Nome dell'attività" name="name" [(ngModel)]="form.nome" required #name="ngModel"></ion-input>
       </ion-item>
       <div class="invalid-feedback ion-text-center" *ngIf="name.errors && f.submitted">
         <ion-note *ngIf="name.errors['required']" slot="error" color="danger">Inserisci un nome per l'attività</ion-note>
@@ -35,12 +35,12 @@
       <!-- Type Select -->
       <ion-item>
         <ion-label position="stacked">Tipo attività</ion-label>
-        <ion-select placeholder="Seleziona" [(ngModel)]="form.activityType" #activityType="ngModel" name="activityType" required>
-          <ion-select-option value="1">Attività all'aperto</ion-select-option>
-          <ion-select-option value="2">Cineforum</ion-select-option>
-          <ion-select-option value="3">Passeggiata in montagna</ion-select-option>
-          <ion-select-option value="4">Arrampicata</ion-select-option>
-          <ion-select-option value="5">Giro in centro</ion-select-option>
+        <ion-select placeholder="Seleziona" [(ngModel)]="form.nome_tipo_evento" #activityType="ngModel" name="activityType" required>
+          <ion-select-option value="Attività all'aperto">Attività all'aperto</ion-select-option>
+          <ion-select-option value="Cineforum">Cineforum</ion-select-option>
+          <ion-select-option value="Passeggiata in montagna">Passeggiata in montagna</ion-select-option>
+          <ion-select-option value="Arrampicata">Arrampicata</ion-select-option>
+          <ion-select-option value="Giro in centro">Giro in centro</ion-select-option>
         </ion-select>
       </ion-item>
       <div class="invalid-feedback ion-text-center" *ngIf="activityType.errors && f.submitted">

@@ -3,7 +3,8 @@ import { Subscription } from 'rxjs';
 import { StorageService } from './_services/storage.service';
 import { AuthService } from './_services/auth.service';
 import { EventBusService } from './_shared/event-bus.service';
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import {HomePage} from "./home/home.page";
+import {Router} from "@angular/router";
 
 declare const L:any;
 @Component({
@@ -26,7 +27,8 @@ export class AppComponent {
   constructor(
     private storageService: StorageService,
     private authService: AuthService,
-    private eventBusService: EventBusService
+    private eventBusService: EventBusService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -47,15 +49,13 @@ export class AppComponent {
     });
   }
 
-
-
   logout(): void {
     this.authService.logout().subscribe({
       next: res => {
         console.log(res);
         this.storageService.clean();
 
-        window.location.reload();
+        this.router.navigate(['/login']);
       },
       error: err => {
         console.log(err);
@@ -66,4 +66,10 @@ export class AppComponent {
   setOpen(isOpen: boolean) {
     this.isModalOpen = isOpen;
   }
+
+  reloadPage() {
+    window.location.reload();
+  }
+
+  protected readonly HomePage = HomePage;
 }

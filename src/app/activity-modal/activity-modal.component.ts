@@ -62,17 +62,17 @@ export class ActivityModalComponent implements OnInit {
 
   // On submit, andiamo a creare l'attività
   onSubmit() {
-    const { name, description, activityType, maxPartecipanti} = this.form;
+    const { nome, nome_tipo_evento, description, activityType, maxPartecipanti} = this.form;
 
     this.activityService.createActivity(
+      nome,
       this.currentUser.id,
-      name,
+      nome_tipo_evento,
       description,
       this.startDateValue,
       this.endDateValue,
       this.latitude,
       this.longitude,
-      activityType,
       maxPartecipanti
     ).subscribe({
       next: data => {
