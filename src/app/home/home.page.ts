@@ -43,9 +43,6 @@ export class HomePage implements OnInit {
   }
 
   async ngOnInit() {
-    if (!this.storageService.isLoggedIn()) {
-      this.router.navigate(['/login']);
-    } else {
       const loading = await this.loadingController.create({
         message: 'Loading map...'
       });
@@ -59,8 +56,6 @@ export class HomePage implements OnInit {
         await loading.dismiss();
       }
     }
-
-  }
 
   async initMap() {
     return new Promise<void>((resolve, reject) => {
@@ -100,7 +95,6 @@ export class HomePage implements OnInit {
     });
   }
 
-  //TODO: capire cosa fare con questa
   watchPosition() {
     navigator.geolocation.watchPosition((position) => {
       console.log(`lat: ${position.coords.latitude}, lon: ${position.coords.longitude}`);

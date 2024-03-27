@@ -56,16 +56,15 @@
     <p class="forget-text"><a>Forgot Password?</a></p>
     <p class="signup-text">I'm a new user&nbsp;<a href="/register">Sign Up?</a></p>
     <ion-button type="submit" class="login-button" expand="block">Login</ion-button>
-    <ion-button class="google-button" expand="block" color="light"><ion-icon name="logo-google"></ion-icon>&nbsp;&nbsp;Google Signin</ion-button>
 
-    <!-- General Errors TODO: i messaggi di errore usano ancora bootstrap!!! -->
-    <div class="form-group">
+    <!-- General Errors -->
+    <div class="form-group ion-text-center">
       <div *ngIf="f.submitted && isLoginFailed" class="alert alert-danger" role="alert">
-        Login failed: {{ errorMessage }}
+        <ion-note slot="error" color="danger">Login failed</ion-note>
       </div>
     </div>
   </form>
-  <!-- Logged message TODO: adattare anche questo -->
+  <!-- Logged message -->
   <div class="alert alert-success" *ngIf="isLoggedIn">
     Logged in as {{ roles }}.
   </div>

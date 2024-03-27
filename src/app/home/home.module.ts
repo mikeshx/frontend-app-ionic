@@ -17,6 +17,6 @@ import {ViewActivityModalComponent} from "../view-activity-modal/view-activity-m
     HomePageRoutingModule,
   ],
   // In declarations vado ad aggiugere i componenti che voglio utilizzare nel modulo home
-  declarations: [HomePage, ActivityModalComponent, ViewActivityModalComponent ]
+  declarations: [HomePage, ActivityModalComponent, ViewActivityModalComponent]
 })
 export class HomePageModule {}

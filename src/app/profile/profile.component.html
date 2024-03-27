@@ -1,21 +1,42 @@
-<div class="container" *ngIf="currentUser; else loggedOut">
-  <header class="jumbotron">
-    <h3>
-      <strong>{{ currentUser.username }}</strong> Profile
-    </h3>
-  </header>
-  <p>
-    <strong>Email:</strong>
-    {{ currentUser.email }}
-  </p>
-  <strong>Roles:</strong>
-  <ul>
-    <li *ngFor="let role of currentUser.roles">
-      {{ role }}
-    </li>
-  </ul>
-</div>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Profilo Utente</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-<ng-template #loggedOut>
-  Please login.
-</ng-template>
+<ion-content class="ion-text-center">
+  <ion-card>
+    <ion-row class="ion-align-items-center ion-justify-content-center">
+      <ion-col size="auto">
+        <ion-avatar>
+          <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        </ion-avatar>
+      </ion-col>
+    </ion-row>
+
+    <ion-card-header>
+      <ion-card-title></ion-card-title>
+      <ion-card-subtitle></ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Username</ion-label>
+        <ion-text>{{currentUser.username}}</ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Email</ion-label>
+        <ion-text>{{currentUser.email}}</ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Roles</ion-label>
+        <ion-text>{{currentUser.roles}}</ion-text>
+      </ion-item>
+
+      <!-- Aggiungi altri campi del profilo qui -->
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>

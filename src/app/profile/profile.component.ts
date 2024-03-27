@@ -13,12 +13,6 @@ export class ProfileComponent implements OnInit {
   constructor(private router: Router, private storageService: StorageService) { }
 
   ngOnInit(): void {
-
-    if (!this.storageService.isLoggedIn()) {
-
-      // Se l'utente non è autenticato, reindirizzalo alla pagina di login
-      this.router.navigate(['/login']);
-    }
     this.currentUser = this.storageService.getUser();
   }
 }

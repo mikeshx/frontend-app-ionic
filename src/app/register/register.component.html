@@ -81,8 +81,9 @@
 
       <p class="signup-text">I'm already a member&nbsp;<a href="/login">Sign In?</a></p>
       <ion-button type="submit" class="login-button form-group" expand="block">Sign Up</ion-button>
-      <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
-        Signup failed!<br/>{{ errorMessage }}
+      <div class="alert alert-warning ion-text-center" *ngIf="f.submitted && isSignUpFailed">
+        <ion-note slot="error" color="danger">Error</ion-note> <br>
+        <ion-note slot="error" color="danger">Message: {{errorMessage}}</ion-note>
       </div>
 
     </form>
@@ -96,7 +97,4 @@
 
 </ion-content>
 <ion-footer color="white">
-  <ion-toolbar>
-    <p class="copyright">Much ❤️ to &#64;iladilo for the emotional and technical support</p>
-  </ion-toolbar>
 </ion-footer>

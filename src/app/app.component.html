@@ -9,28 +9,10 @@
     <!-- Routes for logged users-->
     <ion-content routerLinkActive="true">
       <ion-menu-toggle>
-        <ion-item button="true" href="/home">
+        <ion-item button="true" href="/home" *ngIf="isLoggedIn">
           <ion-label>Home</ion-label>
         </ion-item>
 
-      </ion-menu-toggle>
-
-      <ion-menu-toggle>
-        <ion-item href="/admin" button="true" routerLink="admin" *ngIf="showAdminBoard">
-          <ion-label>Admin Board</ion-label>
-        </ion-item>
-      </ion-menu-toggle>
-
-      <ion-menu-toggle>
-        <ion-item href="/mod" button="true" routerLink="mod" *ngIf="showModeratorBoard">
-          <ion-label>Moderator Board</ion-label>
-        </ion-item>
-      </ion-menu-toggle>
-
-      <ion-menu-toggle>
-        <ion-item href="/user" button="true" routerLink="user" *ngIf="isLoggedIn">
-          <ion-label>User</ion-label>
-        </ion-item>
       </ion-menu-toggle>
 
       <!-- Routes for guests users -->
@@ -66,7 +48,7 @@
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
-      <ion-title>Acty</ion-title>
+      <ion-title>Activities</ion-title>
     </ion-toolbar>
   </ion-header>
 

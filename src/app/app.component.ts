@@ -56,6 +56,7 @@ export class AppComponent {
         this.storageService.clean();
 
         this.router.navigate(['/login']);
+        this.reloadPage()
       },
       error: err => {
         console.log(err);
