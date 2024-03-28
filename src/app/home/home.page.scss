@@ -25,3 +25,17 @@
 #container a {
   text-decoration: none;
 }
+
+.popup {
+  position: relative; /* Assicura che la posizione relativa sia impostata sul contenitore del popup */
+  width: 300px; /* Regola la larghezza del popup come preferisci */
+  height: 200px; /* Regola l'altezza del popup come preferisci */
+  border: 1px solid #ccc; /* Aggiungi bordo per migliorare l'aspetto del popup */
+}
+
+.button-container {
+  position: absolute; /* Imposta il posizionamento assoluto per il contenitore del pulsante */
+  top: 50%; /* Posiziona il contenitore del pulsante al centro rispetto all'alto del popup */
+  left: 50%; /* Posiziona il contenitore del pulsante al centro rispetto alla sinistra del popup */
+  transform: translate(-50%, -50%); /* Utilizza la trasformazione per spostare il contenitore del pulsante al centro del popup */
+}

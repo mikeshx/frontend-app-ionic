@@ -16,25 +16,27 @@
 
       <!-- Name Input -->
       <ion-item>
-        <ion-label position="stacked">Name</ion-label>
-        <ion-input type="text" placeholder="Nome dell'attività" name="name" [(ngModel)]="form.nome" required #name="ngModel"></ion-input>
+        <ion-label position="stacked">Nome:</ion-label>
+        <ion-input type="text" placeholder="Nome dell'attività" name="name" [(ngModel)]="form.nome" required minlength="3" #name="ngModel"></ion-input>
       </ion-item>
       <div class="invalid-feedback ion-text-center" *ngIf="name.errors && f.submitted">
         <ion-note *ngIf="name.errors['required']" slot="error" color="danger">Inserisci un nome per l'attività</ion-note>
+        <ion-note *ngIf="name.errors['minlength']" slot="error" color="danger">Inserisci un nome di almeno 3 caratteri</ion-note>
       </div>
 
       <!-- Description Textarea -->
       <ion-item>
-        <ion-label position="stacked">Description</ion-label>
-        <ion-textarea [autoGrow]="true" class="description-textarea" placeholder="Descrivi attività" name="description" [(ngModel)]="form.description" required #description="ngModel"></ion-textarea>
+        <ion-label position="stacked">Descrizione:</ion-label>
+        <ion-textarea [autoGrow]="true" class="description-textarea" placeholder="Descrivi la tua attività" name="description" [(ngModel)]="form.description" required minlength="10" #description="ngModel"></ion-textarea>
       </ion-item>
       <div class="invalid-feedback ion-text-center" *ngIf="description.errors && f.submitted">
         <ion-note *ngIf="description.errors['required']" slot="error" color="danger">Inserisci una descrizione</ion-note>
+        <ion-note *ngIf="description.errors['minlength']" slot="error" color="danger">Inserisci una descrizione di almeno 10 caratteri</ion-note>
       </div>
 
       <!-- Type Select -->
       <ion-item>
-        <ion-label position="stacked">Tipo attività</ion-label>
+        <ion-label position="stacked">Tipo:</ion-label>
         <ion-select placeholder="Seleziona" [(ngModel)]="form.nome_tipo_evento" #activityType="ngModel" name="activityType" required>
           <ion-select-option value="Attività all'aperto">Attività all'aperto</ion-select-option>
           <ion-select-option value="Cineforum">Cineforum</ion-select-option>
@@ -48,12 +50,14 @@
       </div>
 
       <ion-item>
-      <ion-datetime-button datetime="datetime"></ion-datetime-button>
+        <ion-label position="stacked">Inizio:</ion-label>
+        <ion-datetime-button class="ion-margin-bottom" datetime="datetime"></ion-datetime-button>
         <ion-modal [keepContentsMounted]="true">
           <ng-template>
             <ion-datetime
               id="datetime"
               [(ngModel)]="startDateValue" name="startDateValue"
+              hourCycle="h24"
             >
             </ion-datetime>
           </ng-template>
@@ -62,17 +66,20 @@
 
       <!-- Data Fine evento -->
       <ion-item>
-        <ion-datetime-button datetime="datetime2"></ion-datetime-button>
+        <ion-label position="stacked">Fine:</ion-label>
+        <ion-datetime-button class="ion-margin-bottom" datetime="datetime2"></ion-datetime-button>
         <ion-modal [keepContentsMounted]="true">
           <ng-template>
             <ion-datetime
               id="datetime2"
-              [(ngModel)]="endDateValue" name="startDateValue"
+              [(ngModel)]="endDateValue" name="endDateValue"
+              hourCycle="h24"
             >
             </ion-datetime>
           </ng-template>
         </ion-modal>
       </ion-item>
+
 
 
       <ion-item>
@@ -87,11 +94,11 @@
     </ion-list>
 
     <!-- Submit Button -->
-    <ion-button type="submit" class ="ion-margin-top" expand="block">Submit</ion-button>
+    <ion-button type="submit" class ="ion-margin-top" expand="block">Invia</ion-button>
 
     <!-- General Errors -->
     <div *ngIf="f.submitted && createActivityFailed" class="alert alert-danger" role="alert">
-      {{ errorMessage }}
+
     </div>
 
   </form>

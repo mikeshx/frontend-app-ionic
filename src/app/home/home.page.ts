@@ -4,7 +4,7 @@ import 'leaflet.BounceMarker';
 import {ActivityService} from '../_services/activity.service';
 import {LoadingController, ModalController} from '@ionic/angular';
 import {ActivityModalComponent} from '../activity-modal/activity-modal.component';
-import {Marker} from "leaflet";
+import {circle, Marker} from "leaflet";
 import {ViewActivityModalComponent} from "../view-activity-modal/view-activity-modal.component";
 import { StorageService } from '../_services/storage.service';
 import { Router } from '@angular/router';
@@ -44,7 +44,7 @@ export class HomePage implements OnInit {
 
   async ngOnInit() {
       const loading = await this.loadingController.create({
-        message: 'Loading map...'
+        message: 'Carico la mappa...'
       });
       await loading.present();
 
@@ -71,6 +71,21 @@ export class HomePage implements OnInit {
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.map);
+
+        // Aggiungi un cerchio rosso nella posizione dell'utente
+        L.circle([coord.latitude, coord.longitude], {
+          color: 'red',
+          fillColor: '#f03',
+          fillOpacity: 0.5,
+          radius: 50 // Imposta il raggio del cerchio in metri
+        }).bindPopup("La tua posizione").addTo(this.map);
+
+
+        // Volare verso la posizione dell'utente con animazione di zoom
+        this.map.flyTo([coord.latitude, coord.longitude], 15, {
+          animate: true,
+          duration: 2 // Durata dell'animazione in secondi
+        });
 
         this.map.on('moveend', () => {
           this.loadMarkers();
@@ -184,7 +199,7 @@ export class HomePage implements OnInit {
     const markerPosition = new L.LatLng(this.currentPosition.lat, this.currentPosition.lng);
 
     const mapIcon = L.icon({
-      iconUrl: 'assets/marker-icon.png',
+      iconUrl: 'assets/marker-icon-red.png',
       shadowUrl: 'assets/marker-shadow.png',
       popupAnchor: [13, 0],
     });
@@ -197,8 +212,6 @@ export class HomePage implements OnInit {
 
     const markerId = this.markersToAdd.length; // Assign unique id to marker
     this.markersToAdd.push({id: markerId, marker});
-
-
 
     marker.on('click', (e: L.LeafletMouseEvent) => {
       this.updatePopupContent(e, markerId);
@@ -292,7 +305,7 @@ export class HomePage implements OnInit {
     this.isLoading = true; // attiva il caricamento
 
     const loading = await this.loadingController.create({
-      message: 'Loading...' // messaggio di caricamento
+      message: 'Carico...' // messaggio di caricamento
     });
     await loading.present();
 
@@ -314,7 +327,7 @@ export class HomePage implements OnInit {
     this.isLoading = true; // attiva il caricamento
 
     const loading = await this.loadingController.create({
-      message: 'Loading...' // messaggio di caricamento
+      message: 'Carico...' // messaggio di caricamento
     });
     await loading.present();
 

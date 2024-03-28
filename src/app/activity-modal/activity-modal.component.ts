@@ -3,6 +3,8 @@ import { ModalController } from '@ionic/angular';
 import { ActivityService } from '../_services/activity.service';
 import { StorageService } from '../_services/storage.service';
 import * as moment from 'moment';
+import { AlertController } from '@ionic/angular';
+import {HomePage} from "../home/home.page";
 
 @Component({
   selector: 'app-activity-modal',
@@ -34,7 +36,7 @@ export class ActivityModalComponent implements OnInit {
 
   get endDateValue(): string { return this.#endDateValue };
   set endDateValue(val: string) {
-    this.endDateValue = val;
+    this.#endDateValue = val;
     console.log("endDateValue:" +this.endDateValue);
   };
 
@@ -42,7 +44,7 @@ export class ActivityModalComponent implements OnInit {
   createActivityFailed = false;
 
   constructor(private modalController: ModalController, private activityService: ActivityService,
-              private storageService: StorageService) { }
+              private storageService: StorageService, private alertController: AlertController) { }
 
   ngOnInit() {
 
@@ -76,12 +78,44 @@ export class ActivityModalComponent implements OnInit {
       maxPartecipanti
     ).subscribe({
       next: data => {
-        console.log(data)
+        console.log(data);
+        this.presentAlert('Successo', 'L\'attività è stata creata con successo!');
       },
       error: err => {
         this.errorMessage = err.error.message;
         this.createActivityFailed = true;
+        this.presentErrorAlert('Errore', 'Controlla di aver inserito i dati correttamente');
       }
     });
   }
+
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
+      buttons: [{
+        text: 'OK',
+        handler: () => {
+          // azione da eseguire quando l'utente fa clic su "OK"
+          this.modalController.dismiss();
+        }
+      }]
+    });
+
+    await alert.present();
+  }
+
+  // Presenta alert di errore, ma al contrario della funzione sopra non chiude la finestra modale
+  async presentErrorAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
+      buttons: [{
+        text: 'OK',
+      }]
+    });
+
+    await alert.present();
+  }
+
 }
