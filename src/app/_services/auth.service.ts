@@ -17,7 +17,7 @@ export class AuthService {
 
   login(username: string, password: string): Observable<any> {
     return this.http.post(
-      AUTH_API + 'signin',
+      ANDROID_EMULATOR_BASE_URL + 'signin',
       {
         username,
         password,
@@ -28,7 +28,7 @@ export class AuthService {
 
   register(username: string, email: string, password: string): Observable<any> {
     return this.http.post(
-      AUTH_API + 'signup',
+      ANDROID_EMULATOR_BASE_URL + 'signup',
       {
         username,
         email,
@@ -39,6 +39,6 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    return this.http.post(AUTH_API + 'signout', { }, httpOptions);
+    return this.http.post(ANDROID_EMULATOR_BASE_URL + 'signout', { }, httpOptions);
   }
 }

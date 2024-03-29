@@ -20,7 +20,7 @@ export class ActivityService {
                  dataInizio: string, dataFine: string,
                  latitudine: String, longitudine: String, max_partecipanti: number): Observable<any> {
     return this.http.post(
-       ACTIVITY_API + 'create',
+       ANDROID_EMULATOR_BASE_URL + 'create',
       {
         nome,
         id_organizzatore,
@@ -39,7 +39,7 @@ export class ActivityService {
   /** Richiesta per ottenere la lista delle attività all'interno dei bound della mappa visualizzata dall'utente */
   getActivitesByBounds(northEastLat: number, northEastLng: number, southWestLat: number, southWestLng: number): Observable<any> {
     return this.http.post(
-      ACTIVITY_API + 'getActivitiesByBounds',
+      ANDROID_EMULATOR_BASE_URL + 'getActivitiesByBounds',
       {
         northEastLat,
         northEastLng,
@@ -53,14 +53,14 @@ export class ActivityService {
   /** Richiesta per ottenere il nome del tipo di una attività in base al suo ID  */
   getActivityTypeNameByID(typeID: number): Observable<any> {
     return this.http.get(
-      ACTIVITY_API + 'getActivityTypeNameByID',
+      ANDROID_EMULATOR_BASE_URL + 'getActivityTypeNameByID',
       { params: { typeID: typeID} }
     );
   }
 
   getActivityOrganizerNameByID(organizerID: number): Observable<any> {
     return this.http.get(
-      ACTIVITY_API + 'getActivityOrganizerNameByID',
+      ANDROID_EMULATOR_BASE_URL + 'getActivityOrganizerNameByID',
       { params: { organizerID: organizerID} }
     );
   }
