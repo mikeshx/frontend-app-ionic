@@ -84,12 +84,3 @@ android:networkSecurityConfig="@xml/network_security_config"
   <base-config cleartextTrafficPermitted="true" />
 </network-security-config>
 ```
-
-
-# Todo-list
-
-**TODO:**
-- Quando vado a inserire una attività, posso inserirla solo se si svolgerà da qui a breve (es tra una settimana? qualche giorno?) non posso inserirla se avverrà tra un mese, ad esempio
-
-**Bugfix minori**
-- Distruggi la mappa e ricreala ogni volta che si torna sul tab /home per evitare alcuni problemi di visualizzaizone su android
